@@ -78,6 +78,7 @@ function addCard(colId) {
 
     state.columns[colId].cards.push(newCard);
     render();
+    saveState();
 }
 
 function deleteCard(cardId, colId) {
@@ -88,6 +89,7 @@ function deleteCard(cardId, colId) {
         card => card.id !== cardId
     );
     render();
+    saveState();
 }
 
 function editCard(cardId, colId) {
@@ -105,6 +107,7 @@ function editCard(cardId, colId) {
     card.body = newBody.trim() || "";
 
     render();
+    saveState();
 }
 
 // DRAGGING //
@@ -133,6 +136,7 @@ function handleDrop(targetColId) {
     draggedCard.colId = null;
 
     render();
+    saveState();
 }
 
 
@@ -151,7 +155,7 @@ function render() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-    render();
+    loadState();
     document.querySelectorAll(".add-card-btn").forEach(btn => {
         const colId = btn.closest(".column").id;
         btn.addEventListener("click", () => addCard(colId))
@@ -168,6 +172,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
         h2.addEventListener("input", () => {
             state.columns[colId].title = h2.textContent;
+            saveState();
         });
     });
 });
+
+function saveState() {
+    localStorage.setItem("kanban-state", JSON.stringify(state));
+}
+
+function loadState() {
+    const stored = localStorage.getItem("kanban-state");
+    state = stored ? JSON.parse(stored) : state;
+
+    render();
+}
