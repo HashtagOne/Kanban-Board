@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kanban Board</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div id="app">
+      <header id="app-header">
+        <h1 id="app-title">My Board</h1>
+        <button id="theme-toggle">🌙</button>
+      </header>
+      <div id="board">
+        <div class="column" id="col-todo">
+          <div class="column-header">
+            <h2 contenteditable="true">To Do</h2>
+          </div>
+          <div class="cards-container"></div>
+          <button class="add-card-btn">+ Add Card</button>
+        </div>
+
+        <div class="column" id="col-progress">
+          <div class="column-header">
+            <h2 contenteditable="true">In Progress</h2>
+          </div>
+          <div class="cards-container"></div>
+          <button class="add-card-btn">+ Add Card</button>
+        </div>
+
+        <div class="column" id="col-done">
+          <div class="column-header">
+            <h2 contenteditable="true">Done</h2>
+          </div>
+          <div class="cards-container"></div>
+          <button class="add-card-btn">+ Add Card</button>
+        </div>
+      </div>
+    </div>
+    <script src="app.js"></script>
+  </body>
+</html>

@@ -1,0 +1,266 @@
+
+/* GENERAL */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+    --bg-app: #f0edf8;
+    --bg-todo: #e8e4f8;
+    --bg-progress: #fde8d8;
+    --bg-done: #d8f0e8;
+    --card: #ffffff;
+    --text-primary: #1a1a2e;
+    --text-secondary: #7a7a9a;
+    --text-todo: #5a4a9e;
+    --text-progress: #a0522d;
+    --text-done: #2e7d5a;
+    --tag-todo-bg: #ede8fc;
+    --tag-progress-bg: #fde8d8;
+    --tag-done-bg: #d8f0e8;
+    --border: rgba(0,0,0,0.07);
+    --shadow: rgba(0,0,0,0.06);
+}
+
+[data-theme="dark"] {
+    --bg-app: #1a1820;
+    --bg-todo: #251f38;
+    --bg-progress: #2e2018;
+    --bg-done: #182a22;
+    --card: #2e2c3a;
+    --text-primary: #e8e4f8;
+    --text-secondary: #6a6080;
+    --text-todo: #b8a8f0;
+    --text-progress: #f0b896;
+    --text-done: #7edad8;
+    --tag-todo-bg: #3a2e5e;
+    --tag-progress-bg: #4a2e18;
+    --tag-done-bg: #1a3e28;
+    --border: rgba(255,255,255,0.07);
+    --shadow: rgba(0,0,0,0.3);
+}
+
+body {
+    font-family: 'Nunito', sans-serif;
+    background-color: var(--bg-app);
+    height: 100vh;
+    overflow: hidden;
+    transition: background-color 0.3s ease;
+    -webkit-font-smoothing: antialiased;
+}
+
+
+/* APP ITSELF */
+#app {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    padding: 24px;
+    gap: 20px;
+}
+
+#board {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    flex: 1;
+    overflow: hidden;
+}
+
+#app-header {
+    display: grid;
+    align-items: center;
+    grid-template-columns: 1fr auto 1fr;
+}
+
+#app-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--text-todo);
+    grid-column: 2;
+    text-align: center;
+}
+
+#theme-toggle {
+    grid-column: 3;
+    justify-self: end;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 6px 12px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+#theme-toggle:hover {
+    background-color: var(--border);
+}
+ 
+/* COLUMN */ 
+
+.column {
+    background-color: var(--bg-todo);
+    border-radius: 16px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    overflow: hidden;
+    transition: background-color 0.3s ease;
+}
+
+#col-todo { background-color: var(--bg-todo); }
+#col-progress { background-color: var(--bg-progress); }
+#col-done { background-color: var(--bg-done); }
+
+.column-header h2 {
+    font-size: 0.95rem;
+    font-weight: 700;
+    outline: none;
+    cursor: text;
+    transition: color 0.3s ease;
+    text-align: center;
+}
+
+#col-todo .column-header h2 { color: var(--text-todo); }
+#col-progress .column-header h2 { color: var(--text-progress); }
+#col-done .column-header h2 { color: var(--text-done); }
+
+
+/* CARD CONTAINER */
+
+.cards-container {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex: 1;
+    overflow-y: auto;
+    padding-right: 4px;
+}
+
+.add-card-btn {
+    width: 100%;
+    padding: 8px;
+    border: none;
+    border-radius: 10px;
+    background: transparent;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: left;
+    transition: background-color 0.2s;
+}
+
+#col-todo .add-card-btn { color: var(--text-todo); }
+#col-progress .add-card-btn { color: var(--text-progress); }
+#col-done .add-card-btn { color: var(--text-done); }
+
+.add-card-btn:hover {
+    background-color: var(--border);
+}
+
+/* CARD */
+.card {
+    background: var(--card);
+    border-radius: 10px;
+    padding: 12px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    box-shadow: 0 2px 6px var(--shadow);
+    cursor: grab;
+}
+
+.card:active {
+    cursor: grabbing;
+}
+
+.card-title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.card-body {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+}
+
+.card-tag {
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 2px 10px;
+    border-radius: 20px;
+    align-self: flex-start;
+}
+
+#col-todo .card-tag { background: var(--tag-todo-bg); color: var(--text-todo); }
+#col-progress .card-tag { background: var(--tag-progress-bg); color: var(--text-progress); }
+#col-done .card-tag { background: var(--tag-done-bg); color: var(--text-done); }
+
+.card-dragging {
+    opacity: 0.5;
+    transform: scale(1.02);
+}
+
+.cards-container.drag-over {
+    outline: 2px dashed var(--text-secondary);
+    outline-offset: 4px;
+    border-radius: 10px;
+}
+
+.card-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 6px;
+}
+
+.card.dragging {
+    transform: scale(1.05) rotate(1.5deg);
+    box-shadow: 0 12px 24px var(--shadow);
+    opacity: 0;
+    cursor: grabbing;
+}
+
+.cards-container {
+    overflow-x: hidden;
+}
+
+/* DELETE BUTTON */ 
+.delete-btn {
+    align-self: flex-end;
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    font-size: 0.75rem;
+    cursor: pointer;
+    padding: 0;
+    opacity: 0;
+    transition: opaciy 0.2s;
+}
+
+.card:hover .delete-btn {
+    opacity: 1;
+}
+
+/* EDIT BUTTON */
+
+.edit-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    font-size: 0.75rem;
+    cursor: pointer;
+    padding: 0;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.card:hover .edit-btn {
+    opacity: 1;
+}
