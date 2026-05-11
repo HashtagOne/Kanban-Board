@@ -173,6 +173,7 @@ body {
     gap: 6px;
     box-shadow: 0 2px 6px var(--shadow);
     cursor: grab;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .card:active {
@@ -197,6 +198,7 @@ body {
     padding: 2px 10px;
     border-radius: 20px;
     align-self: flex-start;
+    transition: background 0.3s ease, color 0.3s ease;
 }
 
 #col-todo .card-tag { background: var(--tag-todo-bg); color: var(--text-todo); }
@@ -204,8 +206,8 @@ body {
 #col-done .card-tag { background: var(--tag-done-bg); color: var(--text-done); }
 
 .card-dragging {
-    opacity: 0.5;
-    transform: scale(1.02);
+    opacity: 0;
+    transition: none;
 }
 
 .cards-container.drag-over {

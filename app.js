@@ -23,9 +23,12 @@ function createCard(card, colId) {
     div.setAttribute("draggable", "true");
     div.addEventListener("dragstart", (e) => {
         const clone = div.cloneNode(true);
+        clone.style.position = "absolute";
+        clone.style.top = "-1000px";
         clone.style.width = div.offsetWidth + "px";
         clone.style.opacity = "1";
         clone.style.transform = "rotate(1.5deg)";
+        document.body.appendChild(clone);
 
         e.dataTransfer.setDragImage(clone, e.offsetX, e.offsetY);
 
@@ -139,6 +142,34 @@ function handleDrop(targetColId) {
     saveState();
 }
 
+// LOCALSTORAGE // 
+function saveState() {
+    localStorage.setItem("kanban-state", JSON.stringify(state));
+}
+
+function loadState() {
+    const stored = localStorage.getItem("kanban-state");
+    state = stored ? JSON.parse(stored) : state;
+
+    render();
+}
+
+
+// DARK MODE // 
+
+function darkMode () {
+    if (document.documentElement.getAttribute("data-theme") === "dark") {
+        document.documentElement.removeAttribute("data-theme");
+        document.querySelector("#theme-toggle").textContent = "🌙";
+    } else {
+        document.documentElement.setAttribute("data-theme", "dark");
+        document.querySelector("#theme-toggle").textContent = "☀️";
+    }
+}
+
+document.querySelector("#theme-toggle").addEventListener("click", darkMode);
+
+
 
 // RENDERING //
 
@@ -176,14 +207,3 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 });
-
-function saveState() {
-    localStorage.setItem("kanban-state", JSON.stringify(state));
-}
-
-function loadState() {
-    const stored = localStorage.getItem("kanban-state");
-    state = stored ? JSON.parse(stored) : state;
-
-    render();
-}
