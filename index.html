@@ -24,7 +24,6 @@
           <div class="cards-container"></div>
           <button class="add-card-btn">+ Add Card</button>
         </div>
-
         <div class="column" id="col-progress">
           <div class="column-header">
             <h2 contenteditable="true">In Progress</h2>
@@ -39,6 +38,18 @@
           </div>
           <div class="cards-container"></div>
           <button class="add-card-btn">+ Add Card</button>
+        </div>
+      </div>
+    </div>
+    <div id="modal-overlay" class="hidden">
+      <div id="modal">
+        <h3 id="modal-heading">Add Card</h3>
+        <input id="modal-title" placeholder="Card Title" />
+        <input id="modal-tag" placeholder="Tag (e.g. dev, design, bug)" />
+        <textarea id="modal-body" placeholder="Note (optional)"></textarea>
+        <div id="modal-actions">
+          <button id="modal-cancel">Cancel</button>
+          <button id="modal-save">Save</button>
         </div>
       </div>
     </div>

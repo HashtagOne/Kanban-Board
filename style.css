@@ -266,3 +266,102 @@ body {
 .card:hover .edit-btn {
     opacity: 1;
 }
+
+/* MODAL OVERLAY */
+#modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+}
+
+/* MODAL BOX */
+#modal {
+    background: var(--card);
+    border-radius: 16px;
+    padding: 24px;
+    width: 100%;
+    max-width: 420px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+}
+
+#modal-heading {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+/* MODAL INPUTS */
+#modal-title, #modal-tag {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--bg-app);
+    color: var(--text-primary);
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+#modal-body {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--bg-app);
+    color: var(--text-primary);
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.9rem;
+    outline: none;
+    resize: none;
+    height: 80px;
+    transition: border-color 0.2s;
+}
+
+#modal-title:focus, #modal-tag:focus, #modal-body:focus {
+    border-color: var(--text-todo);
+}
+
+/* MODAL BUTTONS */
+#modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+}
+
+#modal-cancel {
+    background: var(--bg-app);
+    color: var(--text-secondary);
+    bordeR: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+#modal-save {
+    background: var(--text-todo);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+.hidden {
+    display: none !important;
+}
