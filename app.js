@@ -80,17 +80,31 @@ function addCard(colId) {
         state.columns[colId].cards.push(newCard);
         render();
         saveState();
+
+        const newCardEl = document.querySelector(`.card[data-id="${newCard.id}"]`);
+        if (newCardEl) {
+            newCardEl.classList.add("pop-in");
+            newCardEl.addEventListener("animationend", () => {
+                newCardEl.classList.remove("pop-in");
+            }, { once: true });
+        }
     
     });
 }
 
 function deleteCard(cardId, colId) {
     openConfirm(() => {
-    state.columns[colId].cards = state.columns[colId].cards.filter(
-        card => card.id !== cardId
-    );
-    render();
-    saveState();
+        const cardEl = document.querySelector(`.card[data-id="${cardId}"]`)
+        if (cardEl) {
+            cardEl.classList.add("pop-out");
+            cardEl.addEventListener("animationend", () => {
+                state.columns[colId].cards = state.columns[colId].cards.filter(
+                    card => card.id !== cardId
+                );
+                render();
+                saveState();
+            }, {once: true});
+        }
     });
 }
 
@@ -128,14 +142,23 @@ function handleDrop(targetColId) {
     const card = sourceCards[cardIndex];
 
     sourceCards.splice(cardIndex, 1);
-
     state.columns[targetColId].cards.push(card);
+
+    const droppedId = draggedCard.id;
 
     draggedCard.id = null;
     draggedCard.colId = null;
 
     render();
     saveState();
+
+    const droppedEl = document.querySelector(`.card[data-id="${droppedId}"]`)
+    if (droppedEl) {
+        droppedEl.classList.add("plopped");
+        droppedEl.addEventListener("animationend", () => {
+            droppedEl.classList.remove("plopped");
+        }, { once: true });
+    }
 }
 
 // LOCALSTORAGE // 
@@ -173,30 +196,48 @@ function openModal(heading, prefill, callback) {
     modalCallback = callback;
 
     document.querySelector("#modal-heading").textContent = heading;
-
     document.querySelector("#modal-title").value = prefill.title || "";
     document.querySelector("#modal-tag").value = prefill.tag || "";
     document.querySelector("#modal-body").value = prefill.body || "";
 
-    document.querySelector("#modal-overlay").classList.remove("hidden");
+    const overlay = document.querySelector("#modal-overlay");
+    overlay.classList.remove("hidden");
+    overlay.classList.add("open");
     document.querySelector("#modal-title").focus();
 }
 
 function closeModal() {
-    document.querySelector("#modal-overlay").classList.add("hidden");
-    modalCallback = null;
+    const overlay = document.querySelector("#modal-overlay");
+    overlay.classList.remove("open");
+    overlay.classList.add("closing");
+
+    setTimeout(() => {
+        overlay.classList.add("hidden");
+        overlay.classList.remove("closing");
+        modalCallback = null;
+    }, 300);
+   
 }
 
 // CONFIRM MODAL //
 
 function openConfirm(callback) {
     confirmCallback = callback;
-
-    document.querySelector("#confirm-overlay").classList.remove("hidden");
+    const overlay = document.querySelector("#confirm-overlay");
+    overlay.classList.remove("hidden");
+    overlay.classList.add("open");
 }
 
 function closeConfirm() {
-    document.querySelector("#confirm-overlay").classList.add("hidden");
+    const overlay = document.querySelector("#confirm-overlay");
+    overlay.classList.remove("open");
+    overlay.classList.add("closing");
+
+    setTimeout(() => {
+        overlay.classList.add("hidden");
+        overlay.classList.remove("closing");
+        confirmCallback = null;
+    }, 300);
     confirmCallback = null;
 }
 
