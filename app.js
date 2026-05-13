@@ -12,6 +12,9 @@ let draggedCard = {
     colId: null
 };
 
+let modalCallback = null;
+let confirmCallback = null;
+
 
 // CARD FUNCTIONALITY //
 
@@ -66,51 +69,44 @@ function createCard(card, colId) {
 }
 
 function addCard(colId) {
-    const title = prompt("Card title:");
-    if (!title || !title.trim()) return;
-
-    const tag = prompt("Tag (e.g. dev, design, bug):");
-    const body = prompt("Note (optional):");
-
-    const newCard = {
-        id: Date.now(),
-        title: title.trim(),
-        tag: tag.trim() || "general",
-        body: body.trim() || ""
-    };
-
-    state.columns[colId].cards.push(newCard);
-    render();
-    saveState();
+    openModal("Add Card", {}, (title, tag, body) => {
+        const newCard = {
+            id: Date.now(),
+            title: title,
+            tag: tag,
+            body: body
+        };
+        
+        state.columns[colId].cards.push(newCard);
+        render();
+        saveState();
+    
+    });
 }
 
 function deleteCard(cardId, colId) {
-    const confirmed = confirm("Delete this card?");
-    if (!confirmed) return;
-
+    openConfirm(() => {
     state.columns[colId].cards = state.columns[colId].cards.filter(
         card => card.id !== cardId
     );
     render();
     saveState();
+    });
 }
 
 function editCard(cardId, colId) {
     const card = state.columns[colId].cards.find(c => c.id === cardId)
     if (!card) return;
 
-    const newTitle = prompt("Edit title:", card.title);
-    if (!newTitle || !newTitle.trim()) return;
-
-    const newTag = prompt("Edit tag:", card.tag);
-    const newBody = prompt("Edit note:", card.body);
-
-    card.title = newTitle.trim();
-    card.tag = newTag.trim() || "general";
-    card.body = newBody.trim() || "";
+    openModal("Edit Card", card, (title, tag, body) => {
+        card.title = title;
+        card.tag = tag;
+        card.body = body;
+    
 
     render();
     saveState();
+    });
 }
 
 // DRAGGING //
@@ -171,6 +167,39 @@ document.querySelector("#theme-toggle").addEventListener("click", darkMode);
 
 
 
+// MODAL //
+
+function openModal(heading, prefill, callback) {
+    modalCallback = callback;
+
+    document.querySelector("#modal-heading").textContent = heading;
+
+    document.querySelector("#modal-title").value = prefill.title || "";
+    document.querySelector("#modal-tag").value = prefill.tag || "";
+    document.querySelector("#modal-body").value = prefill.body || "";
+
+    document.querySelector("#modal-overlay").classList.remove("hidden");
+    document.querySelector("#modal-title").focus();
+}
+
+function closeModal() {
+    document.querySelector("#modal-overlay").classList.add("hidden");
+    modalCallback = null;
+}
+
+// CONFIRM MODAL //
+
+function openConfirm(callback) {
+    confirmCallback = callback;
+
+    document.querySelector("#confirm-overlay").classList.remove("hidden");
+}
+
+function closeConfirm() {
+    document.querySelector("#confirm-overlay").classList.add("hidden");
+    confirmCallback = null;
+}
+
 // RENDERING //
 
 function render() {
@@ -190,13 +219,13 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelectorAll(".add-card-btn").forEach(btn => {
         const colId = btn.closest(".column").id;
         btn.addEventListener("click", () => addCard(colId))
-    })
+    });
 
     document.querySelectorAll(".cards-container").forEach(container => {
         const colId = container.closest(".column").id;
         container.addEventListener("dragover", handleDragOver);
         container.addEventListener("drop", () => handleDrop(colId));
-    })
+    });
 
     document.querySelectorAll(".column-header h2").forEach(h2 => {
         const colId = h2.closest(".column").id;
@@ -205,5 +234,29 @@ document.addEventListener("DOMContentLoaded", () => {
             state.columns[colId].title = h2.textContent;
             saveState();
         });
+    });
+
+    document.querySelector("#modal-cancel").addEventListener("click", closeModal);
+
+    document.querySelector("#modal-save").addEventListener("click", () => {
+        const title = document.querySelector("#modal-title").value.trim();
+        const tag = document.querySelector("#modal-tag").value.trim() || "general";
+        const body = document.querySelector("#modal-body").value.trim() || "";
+
+        if (!title) {
+            document.querySelector("#modal-title").focus();
+            return;
+        }
+
+        if (modalCallback) modalCallback(title, tag, body);
+        closeModal();
+    
+    });
+
+    document.querySelector("#confirm-cancel").addEventListener("click", closeConfirm);
+
+    document.querySelector("#confirm-delete").addEventListener("click", () => {
+        if (confirmCallback) confirmCallback();
+        closeConfirm();
     });
 });

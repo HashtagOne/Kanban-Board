@@ -40,16 +40,26 @@
           <button class="add-card-btn">+ Add Card</button>
         </div>
       </div>
-    </div>
-    <div id="modal-overlay" class="hidden">
-      <div id="modal">
-        <h3 id="modal-heading">Add Card</h3>
-        <input id="modal-title" placeholder="Card Title" />
-        <input id="modal-tag" placeholder="Tag (e.g. dev, design, bug)" />
-        <textarea id="modal-body" placeholder="Note (optional)"></textarea>
-        <div id="modal-actions">
-          <button id="modal-cancel">Cancel</button>
-          <button id="modal-save">Save</button>
+      <div id="modal-overlay" class="hidden">
+        <div id="modal">
+          <h3 id="modal-heading">Add Card</h3>
+          <input id="modal-title" placeholder="Card Title" />
+          <input id="modal-tag" placeholder="Tag (e.g. dev, design, bug)" />
+          <textarea id="modal-body" placeholder="Note (optional)"></textarea>
+          <div id="modal-actions">
+            <button id="modal-cancel">Cancel</button>
+            <button id="modal-save">Save</button>
+          </div>
+        </div>
+      </div>
+      <div id="confirm-overlay" class="hidden">
+        <div id="confirm-modal">
+          <h3 id="confirm-heading">Delete this card?</h3>
+          <p id="confirm-message">This action cannot be undone.</p>
+          <div id="confirm-actions">
+            <button id="confirm-cancel">Cancel</button>
+            <button id="confirm-delete">Delete</button>
+          </div>
         </div>
       </div>
     </div>
