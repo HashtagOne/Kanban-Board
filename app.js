@@ -238,7 +238,6 @@ function closeConfirm() {
         overlay.classList.remove("closing");
         confirmCallback = null;
     }, 300);
-    confirmCallback = null;
 }
 
 // RENDERING //
