@@ -180,9 +180,11 @@ function darkMode () {
     if (document.documentElement.getAttribute("data-theme") === "dark") {
         document.documentElement.removeAttribute("data-theme");
         document.querySelector("#theme-toggle").textContent = "🌙";
+        localStorage.setItem("theme", "light");
     } else {
         document.documentElement.setAttribute("data-theme", "dark");
         document.querySelector("#theme-toggle").textContent = "☀️";
+        localStorage.setItem("theme", "dark");
     }
 }
 
@@ -255,6 +257,9 @@ function render() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+    if (localStorage.getItem("theme") === "dark") {
+        document.querySelector("#theme-toggle").textContent ="☀️"
+    }
     loadState();
     document.querySelectorAll(".add-card-btn").forEach(btn => {
         const colId = btn.closest(".column").id;
