@@ -246,7 +246,14 @@ function closeConfirm() {
 
 function render() {
     Object.entries(state.columns).forEach(([colId, colData]) => {
+        const heading = document.querySelector(`#${colId} .column-header h2`);
         const container = document.querySelector(`#${colId} .cards-container`);
+
+        if (heading && colData.title !== undefined) {
+            heading.textContent = colData.title;
+        }
+
+
         container.innerHTML="";
 
         colData.cards.forEach(card => {

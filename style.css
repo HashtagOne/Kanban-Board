@@ -247,7 +247,7 @@ body {
     cursor: pointer;
     padding: 0;
     opacity: 0;
-    transition: opaciy 0.2s;
+    transition: opacity 0.2s;
 }
 
 .card:hover .delete-btn {
