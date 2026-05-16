@@ -48,9 +48,9 @@ function createCard(card, colId) {
     });
 
     div.innerHTML = `
-    <span class="card-tag">${card.tag}</span>
-    <p class="card-title">${card.title}</p>
-    <p class="card-body">${card.body}</p>
+    <span class="card-tag"></span>
+    <p class="card-title"></p>
+    <p class="card-body"></p>
     <div class ="card-actions">
         <button class="edit-btn">✎</button>
         <button class="delete-btn">✕</button>
