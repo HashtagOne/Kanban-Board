@@ -56,6 +56,9 @@ function createCard(card, colId) {
         <button class="delete-btn">✕</button>
     </div>
     `;
+    div.querySelector(".card-tag").textContent = card.tag;
+    div.querySelector(".card-title").textContent = card.title;
+    div.querySelector(".card-body").textContent = card.body;
 
     div.querySelector('.edit-btn').addEventListener("click", () => {
         editCard(card.id, colId);
